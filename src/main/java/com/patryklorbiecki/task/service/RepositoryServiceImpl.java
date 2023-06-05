@@ -1,5 +1,6 @@
 package com.patryklorbiecki.task.service;
 
+import com.patryklorbiecki.task.API.RepositoryApi;
 import com.patryklorbiecki.task.dto.RepositoryDto;
 import com.patryklorbiecki.task.mapper.RepositoryMapper;
 import lombok.RequiredArgsConstructor;

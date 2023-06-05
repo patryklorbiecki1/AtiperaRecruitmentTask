@@ -1,9 +1,10 @@
-package com.patryklorbiecki.task.service;
+package com.patryklorbiecki.task.API;
 
 import com.patryklorbiecki.task.dto.BranchDto;
 import com.patryklorbiecki.task.entity.Repository;
 import com.patryklorbiecki.task.exception.NotFoundException;
 import com.patryklorbiecki.task.mapper.BranchMapper;
+import com.patryklorbiecki.task.service.BranchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,12 +15,13 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class RepositoryApi {
-    private static final String GITHUB_API_URL = "https://api.github.com/";
+public class RepositoryApiImpl implements RepositoryApi {
+    private static final String GITHUB_API_URL = "https://api.github.com";
     private final RestTemplate restTemplate;
     private final BranchService branchService;
     private final BranchMapper branchMapper;
 
+    @Override
     public List<Repository> getRepositories(String username) {
         final String apiUrl = getApiUrl(username);
         final Repository[] repositories = restTemplate.getForObject(apiUrl, Repository[].class);
@@ -39,6 +41,6 @@ public class RepositoryApi {
     }
 
     private String getApiUrl(String username) {
-        return GITHUB_API_URL + "users/" + username + "/repos";
+        return String.format("%s/users/%s/repos", GITHUB_API_URL, username);
     }
 }
