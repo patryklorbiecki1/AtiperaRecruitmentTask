@@ -15,8 +15,9 @@ public class RepositoryServiceImpl implements RepositoryService {
     private final RepositoryMapper repositoryMapper;
 
     @Override
-    public List<RepositoryDto> getRepositories(String username){
-        return repositoryMapper.toRepositoryDtoList(repositoryApi.getRepositories(username));
+    public List<RepositoryDto> getRepositories(String username) {
+            return repositoryMapper.toRepositoryDtoList(repositoryApi.getRepositories(username));
+
     }
 
 }

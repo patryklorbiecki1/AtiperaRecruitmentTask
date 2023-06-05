@@ -1,24 +1,26 @@
 package com.patryklorbiecki.task.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ErrorHandler {
-
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException e){
-        final ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(),e.getMessage());
-
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
+    public final ResponseEntity<ErrorResponse> handleHttpMediaTypeNotAcceptableException(
+            HttpMediaTypeNotAcceptableException e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_ACCEPTABLE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorResponse(e.getStatusCode().value(), "Not acceptable: 'Accept' header: 'application/xml"));
     }
-
-    @ExceptionHandler(NotAcceptableException.class)
-    public ResponseEntity<ErrorResponse> handleNotAcceptableException(NotAcceptableException e) {
-        final ErrorResponse error = new ErrorResponse(HttpStatus.NOT_ACCEPTABLE.value(), e.getMessage());
-
-        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    @ExceptionHandler(HttpClientErrorException.NotFound.class)
+    public ResponseEntity<?> handleNotExistingUser() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+                "User not found"));
     }
 }

@@ -20,13 +20,13 @@ These instructions will help you set up and run the project on your local machin
 1. Clone the repository:
 
 ```shell
-git clone https://github.com/patryklorbiecki1/RecruitmentTask.git
+git clone https://github.com/patryklorbiecki1/AtiperaRecruitmentTask.git
 ```
 
 2. Navigate to the project directory:
 
 ```shell
-cd RecruitmentTask
+cd AtiperaRecruitmentTask
  ```
 Build the project using Maven:
 
@@ -37,7 +37,7 @@ mvn clean package
 
 Start the application:
 ```shell
-java -jar target/RecruitmentTask-3.1.0.jar
+java -jar target/AtiperaRecruitmentTask-3.1.0.jar
 ```
 Make a GET request to the following endpoint to retrieve the user's repositories:
 ```shell
@@ -57,7 +57,7 @@ If the requested GitHub user does not exist, the API will return a JSON response
 ```json
 {
 "status": 404,
-"Message": "User not found"
+"message": "User not found"
 }
 ```
 
@@ -69,6 +69,6 @@ If the request has an unsupported media type, the API will return a JSON respons
 
 {
 "status": 406,
-"Message": "Not Acceptable"
+"message": "Not Acceptable"
 }
 ```
