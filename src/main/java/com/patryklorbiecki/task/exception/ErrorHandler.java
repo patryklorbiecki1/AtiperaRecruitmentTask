@@ -18,6 +18,7 @@ public class ErrorHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorResponse(e.getStatusCode().value(), "Not acceptable: 'Accept' header: 'application/xml"));
     }
+
     @ExceptionHandler(HttpClientErrorException.NotFound.class)
     public ResponseEntity<?> handleNotExistingUser() {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(HttpStatus.NOT_FOUND.value(),

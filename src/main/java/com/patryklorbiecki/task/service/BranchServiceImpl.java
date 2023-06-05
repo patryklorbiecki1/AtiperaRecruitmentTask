@@ -12,9 +12,10 @@ import java.util.List;
 public class BranchServiceImpl implements BranchService {
     private final BranchMapper branchMapper;
     private final BranchApi branchApi;
+
     @Override
     public List<BranchDto> getBranchesForRepository(String username, String repositoryName) {
-            return branchMapper.toBranchDtoList(branchApi.getBranchDto(username,repositoryName));
+        return branchMapper.toBranchDtoList(branchApi.getBranchDto(username, repositoryName));
     }
 
 }

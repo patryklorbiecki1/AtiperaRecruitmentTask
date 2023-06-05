@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RequestMapping(value = "github", produces = "application/json")
 public class GithubController {
+
     private final RepositoryService repositoryService;
 
     @RequestMapping("{username}")

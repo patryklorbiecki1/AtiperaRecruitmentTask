@@ -20,25 +20,25 @@ public class RepositoryApi {
     private final BranchService branchService;
     private final BranchMapper branchMapper;
 
-    public List<Repository> getRepositories(String username){
+    public List<Repository> getRepositories(String username) {
         final String apiUrl = getApiUrl(username);
         final Repository[] repositories = restTemplate.getForObject(apiUrl, Repository[].class);
-        if(repositories==null){
+        if (repositories == null) {
             throw new NotFoundException("User not found");
         }
         return Arrays.stream(repositories)
                 .filter(repository -> !repository.getFork())
-                .map(repository -> fillWithBranches(repository,username))
+                .map(repository -> fillWithBranches(repository, username))
                 .collect(Collectors.toList());
     }
 
-    private Repository fillWithBranches(Repository repository,String username) {
+    private Repository fillWithBranches(Repository repository, String username) {
         final List<BranchDto> branches = branchService.getBranchesForRepository(username, repository.getName());
         repository.setBranches(branchMapper.toEntityList(branches));
         return repository;
     }
 
-    private String getApiUrl(String username){
+    private String getApiUrl(String username) {
         return GITHUB_API_URL + "users/" + username + "/repos";
     }
 }

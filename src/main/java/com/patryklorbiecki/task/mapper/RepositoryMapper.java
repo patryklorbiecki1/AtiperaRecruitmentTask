@@ -7,9 +7,10 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring",uses = {BranchMapper.class})
+@Mapper(componentModel = "spring", uses = {BranchMapper.class})
 public interface RepositoryMapper {
-    @Mapping(target = "login",source = "owner.login")
+    @Mapping(target = "login", source = "owner.login")
     RepositoryDto toRepositoryDto(Repository repository);
+
     List<RepositoryDto> toRepositoryDtoList(List<Repository> repositories);
 }

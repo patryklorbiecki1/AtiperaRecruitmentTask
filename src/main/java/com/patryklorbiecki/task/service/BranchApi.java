@@ -16,14 +16,15 @@ public class BranchApi {
     private static final String GITHUB_API_URL = "https://api.github.com/";
     private final RestTemplate restTemplate;
 
-    public List<Branch> getBranchDto(String username,String repositoryName) {
+    public List<Branch> getBranchDto(String username, String repositoryName) {
         final String apiUrl = getApiUrl(username, repositoryName);
         final Branch[] branches = Objects.requireNonNull(restTemplate.getForObject(apiUrl, Branch[].class));
 
         return Arrays.stream(branches)
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
-    private String getApiUrl(String username,String repositoryName){
+
+    private String getApiUrl(String username, String repositoryName) {
         return GITHUB_API_URL + "repos/" + username + "/" + repositoryName + "/branches";
     }
 }
