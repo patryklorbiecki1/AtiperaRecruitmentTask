@@ -2,27 +2,35 @@ package com.patryklorbiecki.task.API;
 
 import com.patryklorbiecki.task.entity.Branch;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class BranchApiImpl implements BranchApi {
-    private static final String GITHUB_API_URL = "https://api.github.com";
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
     public List<Branch> getBranchDto(String username, String repositoryName) {
         final String apiUrl = getApiUrl(username, repositoryName);
-        final Branch[] branches = Objects.requireNonNull(restTemplate.getForObject(apiUrl, Branch[].class));
+        final Mono<Branch[]> response = webClient
+                .get()
+                .uri(apiUrl)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(Branch[].class);
+        final Optional<Branch[]> branches = response.blockOptional();
+        return Arrays.stream(branches.orElseThrow()).collect(Collectors.toList());
 
-        return Arrays.asList(branches);
     }
 
     private String getApiUrl(String username, String repositoryName) {
-        return String.format("%s/repos/%s/%s/branches", GITHUB_API_URL, username, repositoryName);
+        return String.format("/repos/%s/%s/branches", username, repositoryName);
     }
 }

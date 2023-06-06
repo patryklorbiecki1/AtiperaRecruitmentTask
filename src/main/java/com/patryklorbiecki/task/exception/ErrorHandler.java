@@ -19,7 +19,7 @@ public class ErrorHandler {
                 .body(new ErrorResponse(e.getStatusCode().value(), "Not acceptable: 'Accept' header: 'application/xml"));
     }
 
-    @ExceptionHandler(HttpClientErrorException.NotFound.class)
+    @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> handleNotExistingUser() {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(HttpStatus.NOT_FOUND.value(),
                 "User not found"));

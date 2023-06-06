@@ -1,10 +1,11 @@
 package com.patryklorbiecki.task.controller;
 
+import com.patryklorbiecki.task.dto.RepositoryDto;
 import com.patryklorbiecki.task.service.RepositoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -14,8 +15,8 @@ public class GithubController {
     private final RepositoryService repositoryService;
 
     @RequestMapping("{username}")
-    public ResponseEntity<?> listAll(@PathVariable String username) throws Exception {
-            return new ResponseEntity<>(repositoryService.getRepositories(username), HttpStatus.ACCEPTED);
+    public List<RepositoryDto> listAll(@PathVariable String username) {
+            return repositoryService.getRepositories(username);
 
     }
 
